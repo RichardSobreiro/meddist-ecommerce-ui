@@ -1,0 +1,10 @@
+/** @format */
+.content {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.address {
+  font-family: var(--title-font);
+  font-size: var(--font-small);
+}
