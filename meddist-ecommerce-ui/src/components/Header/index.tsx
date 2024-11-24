@@ -1,22 +1,15 @@
 /** @format */
 
-import Logo from "../Logo";
-import SearchBar from "../SearchBar";
-import AccountLink from "../AccountLink";
-import ShoppingCart from "../ShoppingCart";
-import styles from "./Header.module.css";
-import DeliveryAddress from "./DeliveryAddress";
+import React from "react";
+import { useDevice } from "../../context/DeviceContext";
+
+import MobileHeader from "./MobileHeader";
+import DesktopHeader from "./DesktopHeader";
 
 const Header: React.FC = () => {
-  return (
-    <div className={styles.header}>
-      <Logo />
-      <DeliveryAddress />
-      <SearchBar />
-      <AccountLink />
-      <ShoppingCart />
-    </div>
-  );
+  const { isMobile } = useDevice();
+
+  return <>{isMobile ? <MobileHeader /> : <DesktopHeader />}</>;
 };
 
 export default Header;

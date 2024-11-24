@@ -1,0 +1,108 @@
+/** @format */
+.form {
+  display: flex;
+}
+
+.searchInput {
+  min-width: 25rem;
+  max-width: 35rem;
+  height: 2rem;
+  margin-right: 0;
+  border: 0;
+  padding-left: 1rem;
+  outline: none;
+  transition: all 0.3s ease; /* Smooth transition for focus effect */
+}
+
+.searchInput:focus {
+  box-shadow: 0 0 8px rgba(0, 112, 243, 0.5); /* Glowing effect */
+  border-radius: 4px;
+  border: 1px solid #0070f3;
+}
+
+.searchButton {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 0;
+  border: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  background-color: var(--accent-color);
+
+  font-family: var(--title-font);
+  font-size: var(--font-medium);
+  color: var(--primary-color);
+
+  cursor: pointer;
+
+  height: 2rem;
+}
+
+.searchButton:hover {
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  border: 1px;
+  border-color: var(--accent-color);
+}
+
+.dropdownMenu {
+  z-index: 1000;
+  color: var(--accent-color);
+}
+
+/* components/Dropdown/Dropdown.module.css */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownbutton {
+  background-color: #bcbcbc;
+  color: rgb(0, 0, 0);
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 2rem;
+}
+
+.content {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 15rem;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+  opacity: 0; /* Start fully transparent */
+  visibility: hidden; /* Not visible initially */
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  transform: translateY(-20px); /* Start slightly above to slide down */
+}
+
+.content.open {
+  opacity: 1; /* Fully visible */
+  visibility: visible; /* Make visible */
+  transform: translateY(0); /* Slide to natural position */
+}
+
+.item {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-family: var(--text-font);
+  font-size: var(--font-medium);
+}
+
+.itemDescription {
+  font-family: var(--title-font);
+  font-size: var(--font-small);
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.item:hover {
+  background-color: #f1f1f1;
+}

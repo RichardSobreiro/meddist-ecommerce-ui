@@ -1,6 +1,13 @@
+/** @format */
+
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { DeviceProvider } from "../context/DeviceContext";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <DeviceProvider>
+      <Component {...pageProps} />
+    </DeviceProvider>
+  );
 }

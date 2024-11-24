@@ -1,14 +1,15 @@
 /** @format */
+
 .content {
-  padding-left: 1rem;
-  padding-right: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.address {
+.loginText {
   font-family: var(--title-font);
-  font-size: var(--font-small);
+  color: var(--secondary-color);
 }

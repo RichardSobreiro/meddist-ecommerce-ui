@@ -1,0 +1,35 @@
+/** @format */
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative; /* Needed to position the badge absolutely */
+
+  cursor: pointer;
+}
+
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translate(
+    -50%,
+    50%
+  ); /* Adjust position to bottom-left of the icon */
+  background-color: red;
+  color: white;
+  border-radius: 50%; /* Makes the badge circular */
+  padding: 0.25em 0.5em; /* Small padding to keep the content centered */
+  font-size: 0.75rem; /* Smaller font size for the badge */
+  min-width: 20px; /* Ensures the badge has a minimum size */
+  text-align: center; /* Centers text in the badge */
+}

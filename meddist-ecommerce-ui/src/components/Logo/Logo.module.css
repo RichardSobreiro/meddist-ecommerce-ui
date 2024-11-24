@@ -1,5 +1,11 @@
 /** @format */
+@media (min-width: 768px) {
+  .logo {
+    border-radius: 10rem;
+  }
+}
 
 .logo {
   border-radius: 10rem;
+  margin-left: 1rem;
 }

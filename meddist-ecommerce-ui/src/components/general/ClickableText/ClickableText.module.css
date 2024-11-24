@@ -9,5 +9,8 @@
   border: none;
   background: none;
   text-decoration: underline;
-  display: inline-block; /* Keeps the element in line with text */
+  display: flex; /* Keeps the element in line with text */
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }

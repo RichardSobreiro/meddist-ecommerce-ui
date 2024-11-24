@@ -1,0 +1,43 @@
+/** @format */
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: white;
+}
+
+.menu {
+  position: fixed;
+  width: 250px;
+  top: 0;
+  bottom: 0;
+  left: -250px; /* Start off-screen */
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: left 0.3s ease;
+  padding: 10px;
+}
+
+.open {
+  left: 0; /* Slide in */
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItemLink {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  border-bottom: 1px solid #ccc;
+}
+
+.menuItemLink :hover {
+  background-color: #f4f4f4;
+}
