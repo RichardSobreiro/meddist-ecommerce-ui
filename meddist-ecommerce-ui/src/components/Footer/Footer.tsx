@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Footer = () => {
+  const socialIconsSize = 100;
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
@@ -29,8 +30,8 @@ const Footer = () => {
             <Image
               src="https://s.magecdn.com/social/tc-youtube.svg"
               alt="Youtube"
-              width={24}
-              height={24}
+              width={socialIconsSize}
+              height={socialIconsSize}
             />
           </a>
           <a
@@ -41,8 +42,8 @@ const Footer = () => {
             <Image
               src="https://s.magecdn.com/social/tc-linkedin.svg"
               alt="LinkedIn"
-              width={24}
-              height={24}
+              width={socialIconsSize}
+              height={socialIconsSize}
             />
           </a>
           <a
@@ -53,8 +54,8 @@ const Footer = () => {
             <Image
               src="https://s.magecdn.com/social/tc-instagram.svg"
               alt="Instagram"
-              width={24}
-              height={24}
+              width={socialIconsSize}
+              height={socialIconsSize}
             />
           </a>
           <a
@@ -65,14 +66,14 @@ const Footer = () => {
             <Image
               src="https://s.magecdn.com/social/tc-twitter.svg"
               alt="Twitter"
-              width={24}
-              height={24}
+              width={socialIconsSize}
+              height={socialIconsSize}
             />
           </a>
         </div>
       </div>
       <div className={styles.footerCopyright}>
-        &copy; {new Date().getFullYear()} MedDist - Todos os Direitos Reservados
+        &copy; {new Date().getFullYear()} MEDDIST - Todos os Direitos Reservados
       </div>
     </footer>
   );
