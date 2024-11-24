@@ -34,3 +34,7 @@ Serif fonts like Georgia or Times New Roman are often associated with trustworth
 #### Sans-Serif Fonts
 
 For body text, sans-serif fonts such as Arial, Helvetica, or Roboto are excellent for digital platforms due to their clean and modern appearance, which enhances readability on screens.
+
+# TODOs
+
+- STRUCTURE DATE FOR SEO

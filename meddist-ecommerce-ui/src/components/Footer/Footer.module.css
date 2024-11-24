@@ -31,7 +31,7 @@
   margin-right: 20px;
   text-decoration: none;
   color: var(--primary-color);
-  font-size: var(--font-small);
+  font-size: 0.7rem;
 }
 
 .footerLinks a:hover,

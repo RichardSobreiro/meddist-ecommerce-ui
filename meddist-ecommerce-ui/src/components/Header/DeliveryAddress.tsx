@@ -8,8 +8,10 @@ const DeliveryAddress: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <p className={styles.address}>Entrega será feita em Rua Oligisto, 99</p>
-      <p className={styles.address}>Santa Tereza, Belo Horizonte</p>
+      <div className={styles.addressContainer}>
+        <p className={styles.address}>Entrega será feita em Rua Oligisto, 99</p>
+        <p className={styles.address}>Santa Tereza, Belo Horizonte</p>
+      </div>
       <ClickableText
         text="Alterar Endereço"
         onClick={handleChangeDeliveryAddress}

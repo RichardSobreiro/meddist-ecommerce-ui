@@ -2,6 +2,13 @@
 .content {
   padding-left: 1rem;
   padding-right: 1rem;
+  padding-top: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addressContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,5 +17,28 @@
 
 .address {
   font-family: var(--title-font);
-  font-size: var(--font-small);
+  font-size: 0.7rem;
+}
+
+@media (min-width: 768px) {
+  .content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .addressContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .address {
+    font-family: var(--title-font);
+    font-size: var(--font-small);
+  }
 }

@@ -10,12 +10,19 @@
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-color: var(--primary-color);
   color: white;
   padding: 10px 20px;
+}
+
+.headerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerBottom {
+  margin-top: 1rem;
 }
 
 .headerSideContainer {

@@ -45,22 +45,42 @@ const HamburgerMenu: React.FC = () => {
         <ul className={styles.menuList}>
           <li>
             <a href="#" className={styles.menuItemLink}>
-              Home
+              Insumos Hospitalares
             </a>
           </li>
           <li>
             <a href="#" className={styles.menuItemLink}>
-              Services
+              Materiais Permanentes
             </a>
           </li>
           <li>
             <a href="#" className={styles.menuItemLink}>
-              About
+              Medicamentos
             </a>
           </li>
           <li>
             <a href="#" className={styles.menuItemLink}>
-              Contact
+              Textil
+            </a>
+          </li>
+          <li>
+            <a href="#" className={styles.menuItemLink}>
+              Saneantes
+            </a>
+          </li>
+          <li>
+            <a href="#" className={styles.menuItemLink}>
+              Controlados
+            </a>
+          </li>
+          <li>
+            <a href="#" className={styles.menuItemLink}>
+              Sobre Nós
+            </a>
+          </li>
+          <li>
+            <a href="#" className={styles.menuItemLink}>
+              Fale Conosco
             </a>
           </li>
         </ul>
