@@ -9,7 +9,7 @@ import { GetServerSideProps } from "next";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const page = parseInt(context.query.page as string) || 1;
-  const limit = 10;
+  const limit = 9;
   const offset = (page - 1) * limit;
 
   // Fetch data from an API or simulate fetching data

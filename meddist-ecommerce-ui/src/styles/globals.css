@@ -16,8 +16,8 @@
   --font-large: 1.5rem;
 
   /* Font family */
-  --text-font: "Arial", sans-serif;
-  --title-font: "Times New Roman", Times, serif;
+  --text-font: "Arial", Helvetica, sans-serif;
+  --title-font: "Arial", Helvetica, sans-serif;
 }
 
 html,

@@ -2,37 +2,29 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import { PaginationProps } from "../../interfaces/Product";
 import styles from "./Products.module.css";
+import ProductListItem from "./ProductListItem";
 
 const ProductList: React.FC<PaginationProps> = ({ products, page, total }) => {
-  const totalPages = Math.ceil(total / 10);
+  const totalPages = Math.ceil(total / 9);
 
   return (
     <div className={styles.container}>
-      {products?.map((product) => (
-        <div key={product.id} className={styles.product}>
-          <Image
-            src={product.imageUrl}
-            alt={product.name}
-            className={styles.image}
-            width={200}
-            height={200}
-          />
-          <h3>{product.name}</h3>
-          <p>{product.description}</p>
-          <p>${product.price.toFixed(2)}</p>
-        </div>
-      ))}
+      <div className={styles.listContainer}>
+        {products?.map((product) => (
+          <ProductListItem product={product} key={product.id} />
+        ))}
+      </div>
       <div className={styles.pagination}>
         {page > 1 && (
-          <Link href={`/?page=${page - 1}`} passHref>
+          <Link href={`/?page=${page - 1}`} passHref legacyBehavior>
             <a className={styles.link}>Previous</a>
           </Link>
         )}
         {page < totalPages && (
-          <Link href={`/?page=${page + 1}`} passHref>
+          <Link href={`/?page=${page + 1}`} passHref legacyBehavior>
             <a className={styles.link}>Next</a>
           </Link>
         )}

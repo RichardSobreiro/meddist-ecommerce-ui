@@ -8,4 +8,6 @@
 
 .content {
   flex: 1; /* Ensures that this div takes up all available space pushing the footer down */
+  display: flex;
+  justify-content: center;
 }
