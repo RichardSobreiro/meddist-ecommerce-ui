@@ -50,7 +50,7 @@ const ProductListItem: React.FC<Props> = ({ product }) => {
         <h3 className={styles.productNameText}>{product.name}</h3>
       </div>
       <div className={styles.actionsContainer}>
-        <p className={styles.productPriceText}>${product.price.toFixed(2)}</p>
+        <p className={styles.productPriceText}>R$ {product.price.toFixed(2)}</p>
         <div className={styles.actionsAddRemove}>
           <button onClick={handleDecrement} className={styles.actionButton}>
             <FontAwesomeIcon icon={faMinus} size="2x" />

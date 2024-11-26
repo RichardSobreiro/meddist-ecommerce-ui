@@ -31,7 +31,9 @@ const Home: React.FC<PaginationProps> = ({ products, page, total }) => {
   return (
     <>
       <Head>
-        <title>MedDist</title>
+        <title>
+          MedDist - O melhor lugar para comprar materiais e medicamentos
+        </title>
         <meta
           name="description"
           content="Distribuidora de medicamentos e materiais hospitalares - Venda de luvas, aventais, máscaras e muito mais"
