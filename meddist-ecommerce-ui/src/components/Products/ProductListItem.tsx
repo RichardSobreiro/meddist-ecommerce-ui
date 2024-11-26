@@ -5,6 +5,8 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useAppDispatch } from "../../store/hooks";
+import { addItem, removeFromCart } from "../../features/cart/cartSlice";
 
 interface Props {
   product: Product;
@@ -12,15 +14,18 @@ interface Props {
 
 const ProductListItem: React.FC<Props> = ({ product }) => {
   const [quantity, setQuantity] = useState<string>("0"); // Start with a default quantity as a string
+  const dispatch = useAppDispatch();
 
   const handleIncrement = () => {
     setQuantity(String(Number(quantity) + 1));
+    dispatch(addItem({ ...product, quantity: 1 }));
   };
 
   const handleDecrement = () => {
     setQuantity((prevQuantity) =>
       Number(prevQuantity) > 0 ? String(Number(prevQuantity) - 1) : "0"
     );
+    dispatch(removeFromCart(product.id));
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

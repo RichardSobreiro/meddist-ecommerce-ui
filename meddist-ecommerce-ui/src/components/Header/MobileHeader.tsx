@@ -18,7 +18,7 @@ const MobileHeader: React.FC = () => {
         </div>
         <div className={styles.headerSideContainer}>
           <AccountLink />
-          <ShoppingCart itemCount={0} />
+          <ShoppingCart />
         </div>
       </div>
       <div className={styles.headerBottom}>

@@ -15,7 +15,7 @@ const DesktopHeader: React.FC = () => {
         <DeliveryAddress />
         <SearchBar />
         <AccountLink />
-        <ShoppingCart itemCount={0} />
+        <ShoppingCart />
       </div>
     </div>
   );

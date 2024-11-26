@@ -5,18 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useDevice } from "@/context/DeviceContext";
+import { useAppSelector } from "../../store/hooks";
 
-interface ShoppingCartProps {
-  itemCount: number; // Prop to pass the number of items in the cart
-}
-
-const ShoppingCart: React.FC<ShoppingCartProps> = ({ itemCount }) => {
+const ShoppingCart: React.FC = () => {
   const { isMobile } = useDevice();
+  const totalItems = useAppSelector((state) => state.cart.totalItems);
   return (
     <Link href="/carrinho-de-compras" legacyBehavior>
       <div className={styles.content}>
         <FontAwesomeIcon icon={faCartShopping} size={"2x"} />
-        <span className={styles.badge}>{itemCount}</span>
+        <span className={styles.badge}>{totalItems}</span>
         <div className={styles.text}>
           {!isMobile && (
             <>

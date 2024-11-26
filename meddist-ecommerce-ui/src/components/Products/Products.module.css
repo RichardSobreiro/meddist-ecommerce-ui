@@ -29,7 +29,14 @@
 }
 
 .link {
-  color: blue;
+  color: var(--primary-color);
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.active {
+  font-weight: bold;
+  color: var(--secondary-color);
   text-decoration: none;
 }
 
