@@ -2,7 +2,7 @@
 
 .actionsAddRemove {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
 }
@@ -17,4 +17,13 @@
   max-width: 6rem;
   text-align: center;
   font-size: var(--font-medium);
+}
+
+@media (min-width: 768px) {
+  .actionsAddRemove {
+    display: flex;
+    justify-content: left;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
 }

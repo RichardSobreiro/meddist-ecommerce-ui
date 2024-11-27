@@ -28,11 +28,13 @@
 
 .cartItem {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
   margin: 1rem;
   border: 2px solid #ccc;
+  gap: 1rem;
 }
 
 .itemInfo {
@@ -91,4 +93,16 @@
 
 .checkoutBtn:hover {
   opacity: 0.5;
+}
+
+@media (min-width: 768px) {
+  .cartItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin: 1rem;
+    border: 2px solid #ccc;
+  }
 }

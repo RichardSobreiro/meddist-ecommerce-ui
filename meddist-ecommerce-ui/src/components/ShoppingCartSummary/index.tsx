@@ -28,18 +28,16 @@ const ShoppingCartSummary: React.FC = () => {
             className={"small_primary"} // Example of setting a specific height
           />
         </div>
-        {items.length >= 3 ? (
+        {items.length >= 3 && (
           <div className={styles.cartSummary}>
-            <h2>
-              Subtotal ({totalItems} produtos): R${" "}
+            <h2 className={styles.header2}>
+              Subtotal ({totalItems} produtos): R$&nbsp;
               {items
                 .reduce((total, item) => total + item.price * item.quantity, 0)
                 .toFixed(2)}
             </h2>
             <button className={styles.checkoutBtn}>Fechar pedido</button>
           </div>
-        ) : (
-          <p className={styles.noItemsText}>Nenhum item adicionado.</p>
         )}
         <div className={styles.cartItems}>
           {items.map((item) => (
@@ -61,15 +59,15 @@ const ShoppingCartSummary: React.FC = () => {
                 <ShoppingCartSummaryItem item={item} />
               </div>
               <p className={styles.itemPrice}>
-                R$ {(item.price * item.quantity).toFixed(2)}
+                R$&nbsp;{(item.price * item.quantity).toFixed(2)}
               </p>
             </div>
           ))}
         </div>
         {items.length > 0 ? (
           <div className={styles.cartSummary}>
-            <h2>
-              Subtotal ({totalItems} produtos): R${" "}
+            <h2 className={styles.header2}>
+              Subtotal ({totalItems} produtos): R$&nbsp;
               {items
                 .reduce((total, item) => total + item.price * item.quantity, 0)
                 .toFixed(2)}
