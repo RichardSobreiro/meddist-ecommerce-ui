@@ -3,7 +3,7 @@
 import Logo from "../Logo";
 import SearchBar from "../SearchBar";
 import AccountLink from "../AccountLink";
-import ShoppingCart from "../ShoppingCart";
+import ShoppingCart from "../HeaderShoppingCart";
 import styles from "./DesktopHeader.module.css";
 import DeliveryAddress from "./DeliveryAddress";
 

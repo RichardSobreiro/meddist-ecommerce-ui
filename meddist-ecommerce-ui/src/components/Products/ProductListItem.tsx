@@ -4,8 +4,8 @@ import styles from "./ProductListItem.module.css";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { useAppDispatch } from "../../store/hooks";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addItem, removeFromCart } from "../../features/cart/cartSlice";
 
 interface Props {
@@ -13,8 +13,20 @@ interface Props {
 }
 
 const ProductListItem: React.FC<Props> = ({ product }) => {
-  const [quantity, setQuantity] = useState<string>("0"); // Start with a default quantity as a string
   const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cart.items);
+  const cartItem = cartItems.find((item) => item.id === product.id);
+  const [quantity, setQuantity] = useState<string>(
+    cartItem ? String(cartItem.quantity) : "0"
+  );
+
+  useEffect(() => {
+    if (cartItem) {
+      setQuantity(String(cartItem.quantity));
+    } else {
+      setQuantity("0");
+    }
+  }, [cartItem]);
 
   const handleIncrement = () => {
     setQuantity(String(Number(quantity) + 1));

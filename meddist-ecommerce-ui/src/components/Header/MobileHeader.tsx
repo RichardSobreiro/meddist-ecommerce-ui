@@ -4,7 +4,7 @@ import styles from "./MobileHeader.module.css";
 import HamburgerMenu from "./HamburgerMenu";
 import Logo from "../Logo";
 import AccountLink from "../AccountLink";
-import ShoppingCart from "../ShoppingCart";
+import ShoppingCart from "../HeaderShoppingCart";
 import SearchBar from "../SearchBar";
 import DeliveryAddress from "./DeliveryAddress";
 

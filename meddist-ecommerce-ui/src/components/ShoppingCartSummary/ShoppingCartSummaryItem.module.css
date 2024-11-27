@@ -1,0 +1,20 @@
+/** @format */
+
+.actionsAddRemove {
+  display: flex;
+  justify-content: left;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.actionButton {
+  border-radius: 5px;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.quantityInput {
+  max-width: 6rem;
+  text-align: center;
+  font-size: var(--font-medium);
+}

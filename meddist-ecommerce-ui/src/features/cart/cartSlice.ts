@@ -87,6 +87,24 @@ const cartSlice = createSlice({
       state.items = [];
       state.totalItems = 0;
     },
+    updateItemQuantity(state, action: PayloadAction<CartItem>) {
+      const index = state.items.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.items[index].quantity = action.payload.quantity;
+        if (state.items[index].quantity === 0) {
+          if (state.totalItems > 0) {
+            state.totalItems -= 1;
+          }
+          state.items.splice(index, 1);
+        }
+      } else {
+        if (state.totalItems > 0) {
+          state.totalItems -= 1;
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     // Handling asynchronous operations' states if necessary
@@ -128,5 +146,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, clearItems } = cartSlice.actions;
+export const { addItem, removeItem, clearItems, updateItemQuantity } =
+  cartSlice.actions;
 export default cartSlice.reducer;
