@@ -27,3 +27,6 @@
   align-items: center;
   gap: 0.5rem;
 }
+.small_primary:hover {
+  color: var(--primary-color-hover); /* Example color */
+}

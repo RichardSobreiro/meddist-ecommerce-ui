@@ -1,0 +1,71 @@
+/** @format */
+
+.checkoutContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px; /* Adjust width based on your design requirements */
+  margin: 20px auto;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.purchanseAddrPayContainer {
+  display: flex;
+}
+
+.checkoutContainerMain {
+  flex: 0 0 70%;
+  padding: 20px;
+}
+
+.checkoutContainerSide {
+  flex: 0 0 30%;
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.section {
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.alterButton {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.summaryHeader {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.confirmButton {
+  width: 100%;
+  background-color: #ffc107;
+  border: none;
+  padding: 12px 20px;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.confirmButton:hover {
+  background-color: #e0a800;
+}

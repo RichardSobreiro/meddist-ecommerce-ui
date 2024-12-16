@@ -7,12 +7,13 @@ import Header from "../Header";
 
 interface Props {
   children: ReactNode; // ReactNode accepts everything React can render
+  noHeader?: boolean;
 }
 
-const Layout: React.FC<Props> = ({ children }) => {
+const Layout: React.FC<Props> = ({ children, noHeader }) => {
   return (
     <div className={styles.layout}>
-      <Header />
+      {!noHeader && <Header />}
       <main className={styles.content}>{children}</main>
       <Footer />
     </div>

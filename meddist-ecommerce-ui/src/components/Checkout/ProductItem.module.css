@@ -1,0 +1,18 @@
+/** @format */
+
+.product {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.productImage {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.productDetails {
+  flex-grow: 1;
+}

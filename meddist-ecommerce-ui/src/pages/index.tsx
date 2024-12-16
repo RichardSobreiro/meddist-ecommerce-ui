@@ -12,19 +12,39 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const limit = 9;
   const offset = (page - 1) * limit;
 
-  // Fetch data from an API or simulate fetching data
-  const response = await fetch(
-    `http://localhost:3001/products?offset=${offset}&limit=${limit}`
-  );
-  const data = await response.json();
+  try {
+    // Fetch data from an API or simulate fetching data
+    const response = await fetch(
+      `http://localhost:3001/products?offset=${offset}&limit=${limit}`
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch data: ${response.status} ${response.statusText}`
+      );
+    }
+    const data = await response.json();
 
-  return {
-    props: {
-      products: data.products,
-      page: page,
-      total: data.total,
-    },
-  };
+    return {
+      props: {
+        products: data.products,
+        page: page,
+        total: data.total,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    // Here you can handle errors depending on your needs
+    // Example: Return error page or return default props with error messages
+    return {
+      props: {
+        products: [],
+        page: 1,
+        total: 0,
+        error: "Failed to load products.",
+      },
+    };
+  }
 };
 
 const Home: React.FC<PaginationProps> = ({ products, page, total }) => {

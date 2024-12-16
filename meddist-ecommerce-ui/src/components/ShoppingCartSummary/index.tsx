@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from "./ShoppingCartSummary.module.css";
-import { useAppSelector } from "../../store/hooks"; // Adjust the path as necessary
+import { useAppSelector } from "../../store/hooks";
 import ClickableText from "../general/ClickableText";
 import { useRouter } from "next/router";
 import ShoppingCartSummaryItem from "./ShoppingCartSummaryItem";
@@ -14,7 +14,11 @@ const ShoppingCartSummary: React.FC = () => {
   const totalItems = useAppSelector((state) => state.cart.totalItems);
 
   const handleContinueShopping = () => {
-    router.push("/"); // Navigate to the home page
+    router.push("/");
+  };
+
+  const handleCloseOrder = () => {
+    router.push("/finalizar-compra");
   };
 
   return (
@@ -36,7 +40,9 @@ const ShoppingCartSummary: React.FC = () => {
                 .reduce((total, item) => total + item.price * item.quantity, 0)
                 .toFixed(2)}
             </h2>
-            <button className={styles.checkoutBtn}>Fechar pedido</button>
+            <button className={styles.checkoutBtn} onClick={handleCloseOrder}>
+              Fechar pedido
+            </button>
           </div>
         )}
         <div className={styles.cartItems}>
@@ -72,7 +78,9 @@ const ShoppingCartSummary: React.FC = () => {
                 .reduce((total, item) => total + item.price * item.quantity, 0)
                 .toFixed(2)}
             </h2>
-            <button className={styles.checkoutBtn}>Fechar pedido</button>
+            <button className={styles.checkoutBtn} onClick={handleCloseOrder}>
+              Fechar pedido
+            </button>
           </div>
         ) : (
           <p className={styles.noItemsText}>Nenhum item adicionado.</p>
