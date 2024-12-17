@@ -6,6 +6,7 @@ import React, {
   useState,
   ReactNode,
   useEffect,
+  useCallback,
 } from "react";
 import axios from "axios";
 
@@ -16,6 +17,7 @@ interface BearerToken {
 interface LoginCredentials {
   username: string;
   password: string;
+  rememberMe: boolean;
 }
 
 interface User {
@@ -30,6 +32,21 @@ interface AuthContextType {
   logout: () => void;
 }
 
+const decodeJwt = (token: string) => {
+  const base64Url = token.split(".")[1]; // get the payload part
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
@@ -37,20 +54,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const decodeJwt = (token: string) => {
-    const base64Url = token.split(".")[1]; // get the payload part
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-
-    return JSON.parse(jsonPayload);
-  };
+  const setAuthenticationState = useCallback(
+    (accessToken: string, refreshToken: string, rememberMe: boolean) => {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      if (rememberMe) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+      } else {
+        sessionStorage.setItem("accessToken", accessToken);
+        sessionStorage.setItem("refreshToken", refreshToken);
+      }
+      const token: BearerToken = decodeJwt(accessToken);
+      const username: string = token.username;
+      setUser({ accessToken, refreshToken, username });
+    },
+    []
+  );
 
   const login = async (credentials: LoginCredentials) => {
     try {
@@ -60,12 +79,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       });
       const accessToken: string = response.data.refresh_token;
       const refreshToken: string = response.data.refresh_token;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      const token: BearerToken = decodeJwt(accessToken);
-      const username: string = token.username;
-      setUser({ accessToken, refreshToken, username });
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      setAuthenticationState(accessToken, refreshToken, credentials.rememberMe);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         throw new Error(
@@ -80,24 +94,37 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
+
     setUser(null);
     delete axios.defaults.headers.common["Authorization"];
   };
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    if (accessToken && refreshToken) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      const token: BearerToken = decodeJwt(accessToken);
-      const username: string = token.username;
-      setUser({ accessToken, refreshToken, username });
+    const accessTokenLocalStorage = localStorage.getItem("accessToken");
+    const refreshTokenLocalStorage = localStorage.getItem("refreshToken");
+    if (accessTokenLocalStorage && refreshTokenLocalStorage) {
+      setAuthenticationState(
+        accessTokenLocalStorage,
+        refreshTokenLocalStorage,
+        true
+      );
     } else {
-      logout();
+      const accessTokenSessionStorage = sessionStorage.getItem("accessToken");
+      const refreshTokenSessionStorage = sessionStorage.getItem("refreshToken");
+      if (accessTokenSessionStorage && refreshTokenSessionStorage) {
+        setAuthenticationState(
+          accessTokenSessionStorage,
+          refreshTokenSessionStorage,
+          false
+        );
+      } else {
+        logout();
+      }
     }
-  }, []);
+  }, [setAuthenticationState]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

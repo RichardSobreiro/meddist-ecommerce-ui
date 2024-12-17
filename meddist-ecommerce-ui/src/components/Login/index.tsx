@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik";
 import * as Yup from "yup";
 import InputMask from "react-input-mask";
 import styles from "./LoginPage.module.css"; // Ensure you have this CSS module
@@ -10,18 +10,31 @@ import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 
+interface FormValues {
+  username: string | undefined;
+  password: string;
+  rememberMe: boolean;
+}
+
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const authContext = useAuth();
   const validationSchema = Yup.object({
     username: Yup.string().required("CPF ou Email é obrigatório"),
     password: Yup.string().required("Senha é obrigatória"),
+    rememberMe: Yup.boolean(),
   });
 
-  const getMask = (value: string) => {
-    if (!value) return;
-    const unMaskedValue = value.replace(/[.\-\/]/g, "");
-    if (unMaskedValue.match(/\D/)) {
+  const initialValues: FormValues = {
+    username: "",
+    password: "",
+    rememberMe: false,
+  };
+
+  const getMask = (value: string): string => {
+    if (!value) return "";
+    const digitsOnly = value.replace(/[.\-\/]/g, "");
+    if (digitsOnly.match(/\D/)) {
       return "";
     } else {
       return "999.999.999-99";
@@ -37,14 +50,15 @@ const LoginPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <Formik
-        initialValues={{ username: "", password: "", rememberMe: false }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           const loginApi = authContext.login;
           try {
             await loginApi({
-              username: values.username,
+              username: values.username ? values.username : "",
               password: values.password,
+              rememberMe: values.rememberMe,
             });
             console.log("Login successful:");
             router.back();
@@ -67,10 +81,10 @@ const LoginPage: React.FC = () => {
 
             <label htmlFor="username">CPF ou Email</label>
             <Field name="username">
-              {({ field }) => (
+              {({ field }: FieldProps<string, FormValues>) => (
                 <InputMask
                   {...field}
-                  mask={getMask(values.username)}
+                  mask={getMask(values.username ? values.username : "")}
                   maskChar={null}
                   onChange={(e) => {
                     setFieldValue("username", e.target.value);
@@ -117,7 +131,9 @@ const LoginPage: React.FC = () => {
               />
               <ClickableText
                 text="Criar uma conta"
-                onClick={() => {}}
+                onClick={() => {
+                  router.push("/criar-conta");
+                }}
                 className="small_primary"
               />
             </div>

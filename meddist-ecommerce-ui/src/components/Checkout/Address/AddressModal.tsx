@@ -3,7 +3,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import styles from "./AddressModal.module.css"; // Ensure to create this CSS module
+import styles from "./AddressModal.module.css";
 
 interface Props {
   isOpen: boolean;

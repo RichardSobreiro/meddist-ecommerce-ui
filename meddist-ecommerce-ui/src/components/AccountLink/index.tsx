@@ -44,6 +44,7 @@ const AccountLink = () => {
                 <li onClick={() => router.push("/addresses")}>
                   Meus Endereços
                 </li>
+                <li onClick={() => authContext.logout()}>Sair</li>
               </ul>
             </div>
           )}
