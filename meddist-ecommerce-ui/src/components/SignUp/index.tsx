@@ -1,11 +1,14 @@
 /** @format */
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik";
 import * as Yup from "yup";
 import styles from "./SignUp.module.css";
 import InputMask from "react-input-mask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import AddressModal from "../Checkout/Address/AddressModal";
+import AddressSummary from "./AddressSummary";
+import { Address } from "@/interfaces/Address";
 
 interface FormValues {
   fullName: string;
@@ -14,14 +17,18 @@ interface FormValues {
   cpf: string;
   cnpj: string;
   companySocialReason: string;
-  cep: string;
-  address: string;
-  number: string;
-  complement: string;
-  neighborhood: string;
-  city: string;
-  state: string;
+  addresses: Address[];
 }
+
+const initialValues: FormValues = {
+  fullName: "",
+  telephone: "",
+  email: "",
+  cpf: "",
+  cnpj: "",
+  companySocialReason: "",
+  addresses: [],
+};
 
 const signUpSchema = Yup.object().shape({
   fullName: Yup.string().required("Nome completo é obrigatório"),
@@ -30,32 +37,52 @@ const signUpSchema = Yup.object().shape({
   cpf: Yup.string().required("CPF é obrigatório"),
   cnpj: Yup.string().required("CNPJ é obrigatório"),
   companySocialReason: Yup.string().required("Razão Social é obrigatório"),
-  cep: Yup.string().required("CEP é obrigatório"),
-  address: Yup.string().required("Endereço é obrigatório"),
-  number: Yup.string().required("Número é obrigatório"),
-  neighborhood: Yup.string().required("Bairro é obrigatório"),
-  city: Yup.string().required("Cidade é obrigatória"),
-  state: Yup.string().required("Estado é obrigatória"),
+  addresses: Yup.array().of(
+    Yup.object().shape({
+      cep: Yup.string().required("CEP é obrigatório"),
+      address: Yup.string().required("Endereço é obrigatório"),
+      number: Yup.string().required("Número é obrigatório"),
+      neighborhood: Yup.string().required("Bairro é obrigatório"),
+      city: Yup.string().required("Cidade é obrigatória"),
+      state: Yup.string().required("Estado é obrigatória"),
+    })
+  ),
 });
 
 const SignUp: React.FC = () => {
-  const initialValues: FormValues = {
-    fullName: "",
-    telephone: "",
-    email: "",
-    cpf: "",
-    cnpj: "",
-    companySocialReason: "",
-    cep: "",
-    address: "",
-    number: "",
-    complement: "",
-    neighborhood: "",
-    city: "",
-    state: "",
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [formData, setFormData] = useState<FormValues>(initialValues);
+  const [editIndex, setEditIndex] = useState<number | null>(null);
+
+  const handleSaveAddress = (address: Address) => {
+    if (editIndex !== null) {
+      // Update the existing address
+      const updatedAddresses = formData.addresses.map((item, index) =>
+        index === editIndex ? address : item
+      );
+      setFormData({ ...formData, addresses: updatedAddresses });
+    } else {
+      // Add a new address
+      setFormData({
+        ...formData,
+        addresses: [...formData.addresses, address],
+      });
+    }
+    setModalOpen(false);
+    setEditIndex(null);
   };
 
-  const handleAddAddress = () => {};
+  const handleEditAddress = (index: number) => {
+    setEditIndex(index);
+    setModalOpen(true);
+  };
+
+  const handleRemoveAddress = (index: number) => {
+    const updatedAddresses = formData.addresses.filter(
+      (_, idx) => idx !== index
+    );
+    setFormData({ ...formData, addresses: updatedAddresses });
+  };
 
   const handleSubmit = async (values: FormValues) => {
     console.log("Form Values:", values);
@@ -64,136 +91,177 @@ const SignUp: React.FC = () => {
   return (
     <>
       <div className={styles.container}>
-        <h2 className={styles.titlePage}>Criar Conta</h2>
+        <div className={styles.titleContainer}>
+          <h2 className={styles.titlePage}>Criar Conta</h2>
+        </div>
         <Formik
           initialValues={initialValues}
           validationSchema={signUpSchema}
           onSubmit={handleSubmit}
+          enableReinitialize
         >
           {({ errors, touched, setFieldValue }) => (
-            <Form className={styles.form}>
-              <div className={styles.formColumn}>
-                <h3 className={styles.title}>Dados Pessoais</h3>
-                <label htmlFor="fullName">Nome completo</label>
-                {touched.fullName && errors.fullName && (
-                  <ErrorMessage
-                    name="fullName"
-                    component="div"
-                    className={styles.errorMessage}
-                  />
-                )}
-                <Field type="text" id="fullName" name="fullName" />
-
-                <label htmlFor="telephone">Telefone</label>
-                {touched.telephone && errors.telephone && (
-                  <ErrorMessage
-                    name="telephone"
-                    component="div"
-                    className={styles.errorMessage}
-                  />
-                )}
-                <Field type="tel" id="telephone" name="telephone">
-                  {({ field }: FieldProps<string, FormValues>) => (
-                    <InputMask
-                      {...field}
-                      mask="(99) 99999-9999"
-                      onChange={(e) => {
-                        setFieldValue("telephone", e.target.value);
-                      }}
-                      type="tel"
-                      id="telephone"
-                      className={styles.input}
-                      maskChar={null}
+            <Form>
+              <div className={styles.form}>
+                <div className={styles.formColumn}>
+                  <h3 className={styles.title}>Dados Pessoais</h3>
+                  <label htmlFor="fullName">Nome completo</label>
+                  {touched.fullName && errors.fullName && (
+                    <ErrorMessage
+                      name="fullName"
+                      component="div"
+                      className={styles.errorMessage}
                     />
                   )}
-                </Field>
+                  <Field type="text" id="fullName" name="fullName" />
 
-                <label htmlFor="email">Email</label>
-                {touched.email && errors.email && (
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className={styles.errorMessage}
-                  />
-                )}
-                <Field type="email" id="email" name="email" />
-
-                <label htmlFor="cpf">CPF</label>
-                <Field name="cpf">
-                  {({ field }: FieldProps<string, FormValues>) => (
-                    <InputMask
-                      {...field}
-                      mask="999.999.999-99"
-                      onChange={(e) => {
-                        setFieldValue("cpf", e.target.value);
-                      }}
-                      type="text"
-                      id="cpf"
-                      className={styles.input}
-                      maskChar={null}
+                  <label htmlFor="telephone">Telefone</label>
+                  {touched.telephone && errors.telephone && (
+                    <ErrorMessage
+                      name="telephone"
+                      component="div"
+                      className={styles.errorMessage}
                     />
                   )}
-                </Field>
-              </div>
+                  <Field type="tel" id="telephone" name="telephone">
+                    {({ field }: FieldProps<string, FormValues>) => (
+                      <InputMask
+                        {...field}
+                        mask="(99) 99999-9999"
+                        onChange={(e) => {
+                          setFieldValue("telephone", e.target.value);
+                        }}
+                        type="tel"
+                        id="telephone"
+                        className={styles.input}
+                        maskChar={null}
+                      />
+                    )}
+                  </Field>
 
-              <div className={styles.formColumn}>
-                <h3 className={styles.title}>Dados da Empresa</h3>
-                <label htmlFor="cnpj">CNPJ</label>
-                {touched.cnpj && errors.cnpj && (
-                  <ErrorMessage
-                    name="cnpj"
-                    component="div"
-                    className={styles.errorMessage}
-                  />
-                )}
-                <Field type="text" id="cnpj" name="cnpj">
-                  {({ field }: FieldProps<string, FormValues>) => (
-                    <InputMask
-                      {...field}
-                      mask="99.999.999/9999-99"
-                      onChange={(e) => {
-                        setFieldValue("cnpj", e.target.value);
-                      }}
-                      type="text"
-                      id="cnpj"
-                      className={styles.input}
-                      maskChar={null}
+                  <label htmlFor="email">Email</label>
+                  {touched.email && errors.email && (
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className={styles.errorMessage}
                     />
                   )}
-                </Field>
+                  <Field type="email" id="email" name="email" />
 
-                <label htmlFor="companySocialReason">Razão Social</label>
-                {touched.companySocialReason && errors.companySocialReason && (
-                  <ErrorMessage
+                  <label htmlFor="cpf">CPF</label>
+                  <Field name="cpf">
+                    {({ field }: FieldProps<string, FormValues>) => (
+                      <InputMask
+                        {...field}
+                        mask="999.999.999-99"
+                        onChange={(e) => {
+                          setFieldValue("cpf", e.target.value);
+                        }}
+                        type="text"
+                        id="cpf"
+                        className={styles.input}
+                        maskChar={null}
+                      />
+                    )}
+                  </Field>
+                </div>
+
+                <div className={styles.formColumn}>
+                  <h3 className={styles.title}>Dados da Empresa</h3>
+                  <label htmlFor="cnpj">CNPJ</label>
+                  {touched.cnpj && errors.cnpj && (
+                    <ErrorMessage
+                      name="cnpj"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  )}
+                  <Field type="text" id="cnpj" name="cnpj">
+                    {({ field }: FieldProps<string, FormValues>) => (
+                      <InputMask
+                        {...field}
+                        mask="99.999.999/9999-99"
+                        onChange={(e) => {
+                          setFieldValue("cnpj", e.target.value);
+                        }}
+                        type="text"
+                        id="cnpj"
+                        className={styles.input}
+                        maskChar={null}
+                      />
+                    )}
+                  </Field>
+
+                  <label htmlFor="companySocialReason">Razão Social</label>
+                  {touched.companySocialReason &&
+                    errors.companySocialReason && (
+                      <ErrorMessage
+                        name="companySocialReason"
+                        component="div"
+                        className={styles.errorMessage}
+                      />
+                    )}
+                  <Field
+                    type="tel"
+                    id="companySocialReason"
                     name="companySocialReason"
-                    component="div"
-                    className={styles.errorMessage}
                   />
-                )}
-                <Field
-                  type="tel"
-                  id="companySocialReason"
-                  name="companySocialReason"
-                />
-              </div>
+                </div>
 
-              <div className={styles.formColumn}>
-                <h3 className={styles.title}>Endereços</h3>
+                <div className={styles.formColumn}>
+                  <h3 className={styles.title}>Endereços</h3>
+                  {formData.addresses.map((address, index) => (
+                    <AddressSummary
+                      key={index}
+                      address={address}
+                      updateAddressHandler={() => handleEditAddress(index)}
+                      removeAddressHandler={() => handleRemoveAddress(index)}
+                    />
+                  ))}
+                  <div className={styles.actionsAddressContainer}>
+                    <button
+                      onClick={() => {
+                        setModalOpen(true);
+                        setEditIndex(null);
+                      }}
+                      className={styles.actionButton}
+                      type="button"
+                    >
+                      <FontAwesomeIcon
+                        icon={faPlus}
+                        size="2x"
+                        className={styles.iconPlus}
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.actionsContainer}>
                 <button
-                  onClick={handleAddAddress}
-                  className={styles.actionButton}
                   type="button"
+                  className={`${styles.button} ${styles.cancelButton}`}
                 >
-                  <FontAwesomeIcon icon={faPlus} size="2x" />
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className={`${styles.button} ${styles.submitButton}`}
+                >
+                  Criar
                 </button>
               </div>
-
-              {/* <button type="submit" className={styles.submitButton}>
-              Salvar Endereço
-            </button> */}
             </Form>
           )}
         </Formik>
+        <AddressModal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          onSave={handleSaveAddress}
+          initialData={
+            editIndex !== null ? formData.addresses[editIndex] : undefined
+          }
+        />
       </div>
     </>
   );

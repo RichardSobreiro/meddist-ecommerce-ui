@@ -61,14 +61,54 @@
 }
 
 .submitButton {
-  background-color: #007bff;
   color: white;
   border: none;
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
+  min-width: 6rem;
 }
 
-.submitButton:hover {
-  background-color: #0056b3;
+.buttonPositive {
+  background-color: var(--primary-color);
+}
+
+.buttonPositive:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.buttonNegative {
+  background-color: var(--negative-color);
+}
+
+.buttonNegative:hover {
+  background-color: var(--negative-color-hover);
+}
+
+.select {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+  box-sizing: border-box; /* Helps include padding and border in the element's total width and height */
+}
+
+.select:focus {
+  border-color: #4a90e2;
+  outline: none; /* Removes the default focus outline to apply a custom border color */
+}
+
+/* Optional: Style for hover state to enhance user interaction */
+.select:hover {
+  border-color: #aaa; /* Slightly darker border on hover */
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
 }

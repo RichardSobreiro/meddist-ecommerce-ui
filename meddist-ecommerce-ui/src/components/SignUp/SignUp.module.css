@@ -4,9 +4,15 @@
   flex-direction: column;
 }
 
+.titleContainer {
+  text-align: center;
+}
+
 .titlePage {
   margin-bottom: 1rem;
   align-self: center;
+  border-bottom: 3px solid var(--primary-color);
+  border-radius: 5px;
 }
 
 .title {
@@ -15,7 +21,7 @@
 
 .form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: 1;
   gap: 3rem;
 }
@@ -41,35 +47,77 @@
   border-radius: 4px;
 }
 
+.actionsAddressContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+}
+
 .actionButton {
   border-radius: 5px;
   border-color: var(--primary-color);
-  color: var(--primary-color);
-  padding: 0.1rem;
+  padding: 0.3rem;
   max-width: 3rem;
   cursor: pointer;
   background-color: transparent;
+
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for shadow and transform */
 }
 
 .actionButton:hover {
-  border-radius: 5px;
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-  padding: 0.1rem;
-  max-width: 3rem;
-  cursor: pointer;
-  background-color: transparent;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+  transform: scale(1.05); /* Slightly larger */
 }
 
-.submitButton {
-  background-color: #007bff;
+.iconPlus {
+  color: var(--primary-color);
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+
+.button {
   color: white;
   border: none;
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
+  min-width: 6rem;
+}
+
+.submitButton {
+  background-color: var(--primary-color);
 }
 
 .submitButton:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-color-hover);
+}
+
+.cancelButton {
+  background-color: var(--negative-color);
+}
+
+.cancelButton:hover {
+  background-color: var(--negative-color-hover);
+}
+
+@media (min-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 3rem;
+  }
 }

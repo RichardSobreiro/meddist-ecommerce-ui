@@ -6,7 +6,11 @@
 
   --primary-color: #050a43;
   --primary-color-hover: #0056b3;
+  --primary-color-light: #007bff;
+  --primary-color-light-hover: #71b6ff;
   --secondary-color: #62e791;
+  --negative-color: #838383;
+  --negative-color-hover: #bababa;
   --accent-color: #93effd;
   --disabled-text-color: #838383;
   --text-color: #ffffff;

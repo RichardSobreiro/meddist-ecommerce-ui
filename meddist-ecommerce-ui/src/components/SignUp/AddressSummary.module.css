@@ -1,0 +1,43 @@
+/** @format */
+
+.section {
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  max-width: 20rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+}
+
+.alterButton {
+  background: none;
+  border: none;
+  color: var(--primary-color-light);
+  cursor: pointer;
+}
+
+.alterButton:hover {
+  color: var(--primary-color-light-hover);
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: var(--negative-color);
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  color: var(--negative-color-hover);
+}
