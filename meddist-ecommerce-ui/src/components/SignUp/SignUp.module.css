@@ -38,6 +38,11 @@
 .errorMessage {
   color: red;
   font-size: var(--font-small);
+
+  max-width: 10rem; /* Ensures the error message does not exceed the input field width */
+  word-wrap: break-word; /* Ensures text wraps within the container */
+  margin-top: 4px; /* Spacing between input field and error message */
+  padding: 0 5px; /* Padding inside the error message container */
 }
 
 .form input {

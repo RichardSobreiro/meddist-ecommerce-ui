@@ -9,19 +9,15 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddressModal from "../Checkout/Address/AddressModal";
 import AddressSummary from "./AddressSummary";
 import { Address } from "@/interfaces/Address";
+import { UserAcount } from "@/interfaces/UserAccount";
+import { useRouter } from "next/router";
+import { registerUser } from "@/services/userAPI"; // Adjust the import path as necessary
 
-interface FormValues {
-  fullName: string;
-  telephone: string;
-  email: string;
-  cpf: string;
-  cnpj: string;
-  companySocialReason: string;
-  addresses: Address[];
-}
-
-const initialValues: FormValues = {
+const initialValues: UserAcount = {
   fullName: "",
+  username: "",
+  password: "",
+  passwordConfirmation: "",
   telephone: "",
   email: "",
   cpf: "",
@@ -32,6 +28,16 @@ const initialValues: FormValues = {
 
 const signUpSchema = Yup.object().shape({
   fullName: Yup.string().required("Nome completo é obrigatório"),
+  username: Yup.string().required("Nome de usuário é obrigatório"),
+  password: Yup.string()
+    .required("Senha é obrigatória")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Senha deve conter ao menos 8 caracteres, uma letra maiúscula, uma letra minúscula, e um caractere especial."
+    ),
+  passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref("password")], "As senhas devem coincidir")
+    .required("Confirmação de senha é obrigatória"),
   telephone: Yup.string().required("Telefone é obrigatório"),
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
   cpf: Yup.string().required("CPF é obrigatório"),
@@ -50,8 +56,9 @@ const signUpSchema = Yup.object().shape({
 });
 
 const SignUp: React.FC = () => {
+  const router = useRouter();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [formData, setFormData] = useState<FormValues>(initialValues);
+  const [formData, setFormData] = useState<UserAcount>(initialValues);
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
   const handleSaveAddress = (address: Address) => {
@@ -84,9 +91,21 @@ const SignUp: React.FC = () => {
     setFormData({ ...formData, addresses: updatedAddresses });
   };
 
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit = async (values: UserAcount) => {
     console.log("Form Values:", values);
-    // Here you would handle form submission to the server
+    try {
+      const registrationData = {
+        ...values,
+        addresses: formData.addresses, // Assuming addresses are managed separately
+      };
+      const result = await registerUser(registrationData);
+      console.log("Registration Successful:", result);
+      router.push("/login"); // Navigate to login or another appropriate page
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message); // Display error message to the user
+      }
+    }
   };
   return (
     <>
@@ -104,8 +123,48 @@ const SignUp: React.FC = () => {
             <Form>
               <div className={styles.form}>
                 <div className={styles.formColumn}>
+                  <h3 className={styles.title}>Dados da Conta</h3>
+
+                  <label htmlFor="username">Nome de usuário</label>
+                  <Field type="text" id="username" name="username" />
+                  {touched.username && errors.username && (
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  )}
+
+                  <label htmlFor="password">Senha</label>
+                  <Field type="password" id="password" name="password" />
+                  {touched.password && errors.password && (
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  )}
+
+                  <label htmlFor="password">Confirmação da Senha</label>
+                  <Field
+                    type="password"
+                    id="passwordConfirmation"
+                    name="passwordConfirmation"
+                  />
+                  {touched.passwordConfirmation &&
+                    errors.passwordConfirmation && (
+                      <ErrorMessage
+                        name="passwordConfirmation"
+                        component="div"
+                        className={styles.errorMessage}
+                      />
+                    )}
+                </div>
+
+                <div className={styles.formColumn}>
                   <h3 className={styles.title}>Dados Pessoais</h3>
                   <label htmlFor="fullName">Nome completo</label>
+                  <Field type="text" id="fullName" name="fullName" />
                   {touched.fullName && errors.fullName && (
                     <ErrorMessage
                       name="fullName"
@@ -113,18 +172,10 @@ const SignUp: React.FC = () => {
                       className={styles.errorMessage}
                     />
                   )}
-                  <Field type="text" id="fullName" name="fullName" />
 
                   <label htmlFor="telephone">Telefone</label>
-                  {touched.telephone && errors.telephone && (
-                    <ErrorMessage
-                      name="telephone"
-                      component="div"
-                      className={styles.errorMessage}
-                    />
-                  )}
                   <Field type="tel" id="telephone" name="telephone">
-                    {({ field }: FieldProps<string, FormValues>) => (
+                    {({ field }: FieldProps<string, UserAcount>) => (
                       <InputMask
                         {...field}
                         mask="(99) 99999-9999"
@@ -138,8 +189,16 @@ const SignUp: React.FC = () => {
                       />
                     )}
                   </Field>
+                  {touched.telephone && errors.telephone && (
+                    <ErrorMessage
+                      name="telephone"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  )}
 
                   <label htmlFor="email">Email</label>
+                  <Field type="email" id="email" name="email" />
                   {touched.email && errors.email && (
                     <ErrorMessage
                       name="email"
@@ -147,11 +206,10 @@ const SignUp: React.FC = () => {
                       className={styles.errorMessage}
                     />
                   )}
-                  <Field type="email" id="email" name="email" />
 
                   <label htmlFor="cpf">CPF</label>
                   <Field name="cpf">
-                    {({ field }: FieldProps<string, FormValues>) => (
+                    {({ field }: FieldProps<string, UserAcount>) => (
                       <InputMask
                         {...field}
                         mask="999.999.999-99"
@@ -165,6 +223,13 @@ const SignUp: React.FC = () => {
                       />
                     )}
                   </Field>
+                  {touched.cpf && errors.cpf && (
+                    <ErrorMessage
+                      name="cpf"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  )}
                 </div>
 
                 <div className={styles.formColumn}>
@@ -178,7 +243,7 @@ const SignUp: React.FC = () => {
                     />
                   )}
                   <Field type="text" id="cnpj" name="cnpj">
-                    {({ field }: FieldProps<string, FormValues>) => (
+                    {({ field }: FieldProps<string, UserAcount>) => (
                       <InputMask
                         {...field}
                         mask="99.999.999/9999-99"
@@ -241,6 +306,9 @@ const SignUp: React.FC = () => {
                 <button
                   type="button"
                   className={`${styles.button} ${styles.cancelButton}`}
+                  onClick={() => {
+                    router.push("/entrar");
+                  }}
                 >
                   Cancelar
                 </button>
