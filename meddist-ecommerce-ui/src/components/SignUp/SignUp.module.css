@@ -13,6 +13,7 @@
   align-self: center;
   border-bottom: 3px solid var(--primary-color);
   border-radius: 5px;
+  padding: 1rem;
 }
 
 .title {
@@ -111,6 +112,10 @@
 
 .cancelButton:hover {
   background-color: var(--negative-color-hover);
+}
+
+.successMessage {
+  padding: 1rem;
 }
 
 @media (min-width: 768px) {

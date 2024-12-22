@@ -6,15 +6,39 @@ import { DeviceProvider } from "../context/DeviceContext";
 import { Provider } from "react-redux";
 import { store } from "../store";
 import { AuthProvider } from "@/context/AuthContext";
+import { SpinnerProvider, useSpinner } from "@/context/SpinnerContext ";
+import Spinner from "@/components/Spinner";
+import { ToastProvider } from "@/context/ToastContext";
+import Toast from "@/components/Toast";
 
-export default function App({ Component, pageProps }: AppProps) {
+function AppContent({ Component, pageProps, router }: AppProps) {
+  const { isLoading } = useSpinner();
+
   return (
-    <DeviceProvider>
-      <AuthProvider>
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
-      </AuthProvider>
-    </DeviceProvider>
+    <>
+      {isLoading && <Spinner />}
+      <Component {...pageProps} router={router} />
+    </>
+  );
+}
+
+export default function App({ Component, pageProps, router }: AppProps) {
+  return (
+    <SpinnerProvider>
+      <DeviceProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Provider store={store}>
+              <AppContent
+                Component={Component}
+                pageProps={pageProps}
+                router={router}
+              />
+            </Provider>
+          </AuthProvider>
+          <Toast />
+        </ToastProvider>
+      </DeviceProvider>
+    </SpinnerProvider>
   );
 }

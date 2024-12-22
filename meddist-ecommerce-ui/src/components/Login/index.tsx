@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
   const router = useRouter();
   const authContext = useAuth();
   const validationSchema = Yup.object({
-    username: Yup.string().required("CPF ou Email é obrigatório"),
+    username: Yup.string().required("Email é obrigatório"),
     password: Yup.string().required("Senha é obrigatória"),
     rememberMe: Yup.boolean(),
   });
@@ -79,7 +79,7 @@ const LoginPage: React.FC = () => {
           <Form className={styles.loginForm}>
             <h2>Entrar</h2>
 
-            <label htmlFor="username">CPF ou Email</label>
+            <label htmlFor="username">Email</label>
             <Field name="username">
               {({ field }: FieldProps<string, FormValues>) => (
                 <InputMask
