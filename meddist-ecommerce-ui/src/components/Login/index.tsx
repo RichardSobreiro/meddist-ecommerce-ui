@@ -9,6 +9,7 @@ import ClickableText from "../general/ClickableText";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
+import { useSpinner } from "@/context/SpinnerContext ";
 
 interface FormValues {
   username: string | undefined;
@@ -24,6 +25,7 @@ const LoginPage: React.FC = () => {
     password: Yup.string().required("Senha é obrigatória"),
     rememberMe: Yup.boolean(),
   });
+  const { showSpinner, hideSpinner } = useSpinner();
 
   const initialValues: FormValues = {
     username: "",
@@ -43,7 +45,7 @@ const LoginPage: React.FC = () => {
 
   useEffect(() => {
     if (authContext.user != null) {
-      router.back();
+      router.push("/");
     }
   }, [authContext.user, router]);
 
@@ -55,13 +57,14 @@ const LoginPage: React.FC = () => {
         onSubmit={async (values, { setSubmitting }) => {
           const loginApi = authContext.login;
           try {
+            showSpinner();
             await loginApi({
               username: values.username ? values.username : "",
               password: values.password,
               rememberMe: values.rememberMe,
             });
             console.log("Login successful:");
-            router.back();
+            router.push("/");
           } catch (error) {
             if (error instanceof Error) {
               console.error("Login failed:", error.message);
@@ -72,6 +75,7 @@ const LoginPage: React.FC = () => {
             }
           } finally {
             setSubmitting(false);
+            hideSpinner();
           }
         }}
       >
@@ -126,7 +130,9 @@ const LoginPage: React.FC = () => {
             <div className={styles.links}>
               <ClickableText
                 text="Esqueci minha senha"
-                onClick={() => {}}
+                onClick={() => {
+                  router.push("/esqueci-minha-senha");
+                }}
                 className="small_primary"
               />
               <ClickableText

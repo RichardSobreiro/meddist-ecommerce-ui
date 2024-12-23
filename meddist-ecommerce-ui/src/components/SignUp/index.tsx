@@ -62,8 +62,8 @@ const SignUp: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState<UserAcount>(initialValues);
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const { showSpinner, hideSpinner } = useSpinner();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { showSpinner, hideSpinner } = useSpinner();
   const { addToast } = useToast();
 
   const handleSaveAddress = (address: Address) => {

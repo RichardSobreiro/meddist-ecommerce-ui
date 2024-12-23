@@ -25,6 +25,9 @@ const ConfirmEmail = () => {
             err.response?.data?.message ||
               "A verificação de email falhou. Tente novamento ou entre em contato conosco."
           );
+          if (err.response?.data?.message == "Email already confirmed.") {
+            router.push("/");
+          }
         });
     }
   }, [addToast, router, token]);
