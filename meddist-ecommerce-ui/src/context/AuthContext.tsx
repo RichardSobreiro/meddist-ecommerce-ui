@@ -77,7 +77,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         email: credentials.username,
         password: credentials.password,
       });
-      const accessToken: string = response.data.refresh_token;
+      const accessToken: string = response.data.access_token;
       const refreshToken: string = response.data.refresh_token;
       setAuthenticationState(accessToken, refreshToken, credentials.rememberMe);
     } catch (error) {

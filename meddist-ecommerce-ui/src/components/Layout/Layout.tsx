@@ -6,7 +6,7 @@ import styles from "./Layout.module.css";
 import Header from "../Header";
 
 interface Props {
-  children: ReactNode; // ReactNode accepts everything React can render
+  children: ReactNode;
   noHeader?: boolean;
 }
 
